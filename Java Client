@@ -1,0 +1,90 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javaapplication5;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ *
+ * @author aystilimango
+ */
+public class JavaApplication5 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) throws ParseException, IOException{
+    
+        
+        try
+        {
+            Socket sock = new Socket("localhost", 5249);
+           
+            System.out.println("Connection established");
+            String data = null;
+            
+            BufferedReader brCli = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print("Enter text to be sent to Server: ");
+            String strCli = brCli.readLine();
+            
+            InputStreamReader input = new InputStreamReader(sock.getInputStream());
+            BufferedReader bread = new BufferedReader(input);
+
+            
+            
+            
+           
+            
+            
+          /*Date d = null;
+            DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            try{
+            d = sdf.parse(strCli); 
+            System.out.println(d);
+            }
+            catch(ParseException e){
+             System.out.println("yanlış");   
+            }*/
+            
+	    
+        
+        
+            PrintWriter pwrite = new PrintWriter(sock.getOutputStream(), true);
+            pwrite.println(strCli);
+
+
+            while((data = bread.readLine()) != null)
+            {
+                System.out.println(data);
+            }
+
+        
+	//String date = sdf.format(new Date()); 
+	//System.out.println(date); //15/10/2013
+        // Bug Here: The following line does not get prined.
+            
+
+            pwrite.close();
+            bread.close();
+            input.close();
+        }
+        catch(IOException ex)
+        {
+            System.err.println(ex);
+        }
+    }
+    
+}
